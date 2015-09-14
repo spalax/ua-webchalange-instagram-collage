@@ -1,0 +1,132 @@
+<?php
+if (!empty($this->validInputs['source'])) {
+    $source = $this->validInputs['source']->getValue();
+} else {
+    $source = \Frontend\Data\Gallery\SourceNameInterface::SOURCE_USER;
+}
+
+if (!empty($this->validInputs['quality'])) {
+    $quality = $this->validInputs['quality']->getValue();
+} else {
+    $quality = \Frontend\Data\Gallery\QualityInterface::QUALITY_THUMBNAIL;
+}
+
+?>
+<div class="profile-sidebar">
+    <div class="profile-usermenu">
+        <ul class="nav">
+            <li>
+                <a href="<?=$this->url('frontend/logout')?>">
+                    <i class="glyphicon glyphicon-log-out"></i>
+                    Logout </a>
+            </li>
+        </ul>
+    </div>
+    <!-- SIDEBAR USERPIC -->
+    <div class="profile-userpic ">
+        <?php if (!empty($this->user->profile_picture)) :?>
+            <img src="<?=$this->user->profile_picture?>"
+                 class="img-responsive"
+                 style="width: 100px;"
+                 alt="<?=(!empty($this->user->username) ? $this->escapeHtmlAttr($this->user->username) : "")?>">
+        <?php endif ?>
+    </div>
+    <!-- END SIDEBAR USERPIC -->
+    <!-- SIDEBAR USER TITLE -->
+    <div class="profile-usertitle">
+        <div class="profile-usertitle-name">
+            <?=(!empty($this->user->username) ? $this->escapeHtml($this->user->username) : "")?>
+        </div>
+        <div class="profile-usertitle-bio">
+            <?=(!empty($this->user->bio) ? $this->escapeHtmlAttr($this->user->bio) : "")?>
+        </div>
+    </div>
+    <!-- END SIDEBAR USER TITLE -->
+    <!-- SIDEBAR BUTTONS -->
+    <div class="profile-userbuttons">
+        <form action="<?=$this->url('frontend/gallery/preview')?>">
+            <div class="row col-lg-12">
+                <input type="text" class="form-control"
+                       value="<?=(!empty($this->validInputs['username']) ? $this->validInputs['username']->getValue(): '')?>"
+                       name="username" placeholder="Username">
+            </div>
+            <div class="row col-lg-12 text-center">
+                <div class="input-group">
+                    <input type="text" class="form-control"
+                           value="<?=(!empty($this->validInputs['width']) ? $this->validInputs['width']->getValue(): '')?>"
+                           name="width" placeholder="Width">
+                    <span class="input-group-addon"><i>X</i></span>
+                    <input type="text" class="form-control"
+                           value="<?=(!empty($this->validInputs['height']) ? $this->validInputs['height']->getValue(): '')?>"
+                           name="height" placeholder="Height">
+                </div>
+            </div>
+            <div class="row col-lg-12">
+                <div class="input-group mycolorpicker">
+                    <input type="text" name="hex"
+                           class="form-control"
+                           value="<?=(!empty($this->validInputs['hex']) ? $this->validInputs['hex']->getValue(): '')?>"
+                           placeholder="Choose Color" />
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+            </div>
+            <div class="row col-lg-12">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary <?=$this->quality($quality, 'thumb')->getActive()?>">
+                        <input type="radio"
+                               name="quality"
+                               value="<?=$this->quality($quality, 'thumb')->getValue()?>"
+                               autocomplete="off"
+                            <?=$this->quality($quality, 'thumb')->getChecked()?>/> Thumb
+                    </label>
+                    <label class="btn btn-primary <?=$this->quality($quality, 'low_res')->getActive()?>">
+                        <input type="radio"
+                               name="quality"
+                               value="<?=$this->quality($quality, 'low_res')->getValue()?>"
+                               autocomplete="off"
+                            <?=$this->quality($quality, 'low_res')->getChecked()?>/> L. Res.
+                    </label>
+                    <label class="btn btn-primary <?=$this->quality($quality, 'std_res')->getActive()?>">
+                        <input type="radio"
+                               name="quality"
+                               value="<?=$this->quality($quality, 'std_res')->getValue()?>"
+                               autocomplete="off"
+                            <?=$this->quality($quality, 'std_res')->getChecked()?>/> S. Res.
+                    </label>
+                </div>
+            </div>
+            <div class="row col-lg-12">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary <?=$this->source($source, 'user')->getActive()?>">
+                        <input type="radio"
+                               name="source"
+                               value="<?=$this->source($source, 'user')->getValue()?>"
+                               autocomplete="off" <?=$this->source($source, 'user')->getChecked()?>/> User
+                    </label>
+                    <label class="btn btn-primary <?=$this->source($source, 'feed')->getActive()?>">
+                        <input type="radio" value="<?=$this->source($source, 'feed')->getValue()?>"
+                               name="source" autocomplete="off" <?=$this->source($source, 'feed')->getChecked()?>/> Feed
+                    </label>
+                </div>
+            </div>
+            <div class="row col-lg-12">
+                <div class="form-group col-lg-5">
+                    <input type="text"
+                           class="form-control limit"
+                           value="<?=(!empty($this->validInputs['limit']) ?
+                                        $this->validInputs['limit']->getValue(): '')?>"
+                           name="limit" placeholder="Limit: 5">
+                </div>
+
+                <div class="input-group col-lg-7">
+                    <button type="submit" onclick="$('form').attr('method', 'post')"
+                            class="btn btn-success btn-sm btn-block">Collage It</button>
+                    <button type="submit"
+                            class="btn btn-success btn-sm btn-block"
+                            onclick="$('form').attr('method', 'get')">Preview</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- END SIDEBAR BUTTONS -->
+</div>

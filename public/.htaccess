@@ -1,0 +1,12 @@
+DirectoryIndex index.php
+
+RewriteEngine On
+
+RewriteBase /
+RewriteRule ^(.*)\/$ $1 [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]

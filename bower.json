@@ -1,0 +1,15 @@
+{
+  "name": "collage",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "3.*",
+    "mjolnic-bootstrap-colorpicker": "~2.3.0"
+  }
+}

@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        <?php if (!empty($this->errorMessage)) :?>
+            <strong>Unrecoverable:</strong> <?=$this->errorMessage?>
+        <?php else: ?>
+            <strong>Unrecoverable:</strong> Something gone wrong ... please
+            <a href="<?=$this->url('frontend')?>" class="alert-link">try again.</a>
+        <?php endif ?>
+
+    </div>
+</div>

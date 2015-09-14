@@ -1,0 +1,20 @@
+<div class="col-md-3">
+<?=$this->render('frontend/gallery/parts/sidebar')?>
+</div>
+<div class="col-md-9">
+    <?php if (is_array($this->messages)) :?>
+        <?php foreach ($this->messages as $fieldName=>$messages) : ?>
+            <div class="alert alert-danger" role="alert">
+                <strong><?=$fieldName?>:</strong>
+                <ul>
+                <?php foreach ($messages as $message) :?>
+                    <li>
+                        <?=$message?>
+                    </li>
+                <?php endforeach?>
+                </ul>
+            </div>
+        <?php endforeach?>
+    <?php endif ?>
+</div>
+

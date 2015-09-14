@@ -1,0 +1,22 @@
+<div class="col-md-3">
+    <?=$this->render('frontend/gallery/parts/sidebar')?>
+</div>
+<div class="col-md-9">
+    <div class="profile-content">
+        <?php if (!empty($this->images) && count($this->images) > 0) :?>
+            <?php foreach ($this->images as $img) :?>
+                <?php
+                list($r, $g, $b) = \ColorThief\ColorThief::getColor($img->url);
+                ?>
+                <div class="col-xs-6 col-md-3">
+                    <div class="thumbnail" style="background-color: rgb(<?=$r?>,<?=$g?>,<?=$b?>);">
+                        <img src="<?=$img->url?>">
+                    </div>
+                </div>
+            <?php endforeach ?>
+        <?php else :?>
+            <h1>Ooops, no images found by your query...</h1>
+        <?php endif ?>
+    </div>
+</div>
+
