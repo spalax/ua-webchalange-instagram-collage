@@ -118,14 +118,14 @@ class CollageService
         if ($width == null && $height === null) {
             $sqrt = sqrt($limit);
             $width = ceil(sqrt($limit)) * $maxWidth;
-            $height = (($limit%2) == 0 ? floor($sqrt) : ceil($sqrt)) * $maxHeight;
+            $height = round($sqrt) * $maxHeight;
         } else if ($width != null && $height === null) {
             $height = (ceil($limit / ceil($width / $maxWidth))*$maxHeight);
         } else if ($width == null && $height != null) {
             $width = ceil($limit / ceil($height/$maxHeight))*$maxWidth;
         } else {
-            $height = ceil($height / $maxHeight) * $maxHeight;
-            $width = ceil( $width / $maxWidth ) * $maxWidth;
+            $height = round($height / $maxHeight) * $maxHeight;
+            $width = round( $width / $maxWidth ) * $maxWidth;
         }
 
         $collage = $this->imageService->create(new \Imagine\Image\Box($width, $height));

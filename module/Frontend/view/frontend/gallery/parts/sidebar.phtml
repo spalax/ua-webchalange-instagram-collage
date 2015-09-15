@@ -20,13 +20,16 @@ if (!empty($this->validInputs['quality'])) {
 <?php endif ?>
 <div class="profile-sidebar">
     <div class="profile-usermenu">
-        <ul class="nav">
-            <li>
-                <a href="<?=$this->url('frontend/logout')?>">
-                    <i class="glyphicon glyphicon-log-out"></i>
-                    Logout </a>
-            </li>
-        </ul>
+        <div class="row">
+            <ul class="nav col-md-2">
+                <li>
+                    <a href="<?=$this->url('frontend/logout')?>">
+                        <i class="glyphicon glyphicon-log-out"></i>
+                        Logout </a>
+                </li>
+            </ul>
+            <div class="col-md-10"> </div>
+        </div>
     </div>
     <!-- SIDEBAR USERPIC -->
     <div class="profile-userpic ">
