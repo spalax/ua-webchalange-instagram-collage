@@ -34,7 +34,7 @@ class Utility {
 
         $i = 1;
         $args = func_get_args();
-        array_walk_recursive($args, function(&$item, $key){
+        array_walk_recursive($args, function(&$item){
             if ($item === "") {
                 $item = '""';
             } elseif ($item === true) {

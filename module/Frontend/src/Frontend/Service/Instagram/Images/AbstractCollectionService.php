@@ -1,8 +1,6 @@
 <?php
 namespace Frontend\Service\Instagram\Images;
 
-use Frontend\Data\Gallery\HexInterface;
-use Frontend\Data\Gallery\LimitHexInterface;
 use Frontend\Data\Gallery\LimitHexQualityInterface;
 use Frontend\Wrapper\API\InstagramWrapperInterface;
 use ColorThief\ColorThief;
@@ -71,8 +69,7 @@ abstract class AbstractCollectionService implements CollectionInterface
     }
 
     /**
-     * @param int $limit
-     * @param string $hex
+     * @param LimitHexQualityInterface $limitHexQualityData
      *
      * @return array
      */
@@ -138,7 +135,7 @@ abstract class AbstractCollectionService implements CollectionInterface
 
                 foreach ( $sorted as $item ) {
                     if ( count( $images ) >= $limit ) {
-                        return;
+                        return null;
                     }
 
                     $images[] = $item;
@@ -149,6 +146,8 @@ abstract class AbstractCollectionService implements CollectionInterface
                 unset($fetchedImages->data);
                 return $rec( $limit, $rgb, $fetchAll($getLimit, $fetchedImages));
             }
+
+            return null;
         };
 
         $rec($limitHexQualityData->getLimit(), $rgb, $fetchAll($getLimit));

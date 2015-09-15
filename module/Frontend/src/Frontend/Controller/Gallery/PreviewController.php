@@ -30,6 +30,12 @@ class PreviewController extends AbstractController
      */
     protected $sessionContainer = null;
 
+    /**
+     * @param AuthenticationService $authenticationService
+     * @param CollectionFactory $collectionFactory
+     * @param SessionContainer $sessionContainer
+     * @param ConfigurationData $configurationData
+     */
     public function __construct(AuthenticationService $authenticationService,
                                 CollectionFactory $collectionFactory,
                                 SessionContainer $sessionContainer,
@@ -69,6 +75,6 @@ class PreviewController extends AbstractController
 
         $viewModel->setTemplate('frontend/gallery/preview');
 
-        $e->setResult($viewModel);
+        return $e->setResult($viewModel);
     }
 }

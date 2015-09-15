@@ -2,12 +2,12 @@
 namespace Frontend\Service;
 
 use Frontend\Options\ModuleOptions;
-use Imagine\Image\ImagineInterface;
+use Imagine\Image;
 
 class CollageService
 {
     /**
-     * @var ImagineInterface
+     * @var Image\ImagineInterface
      */
     protected $imageService = null;
 
@@ -17,9 +17,10 @@ class CollageService
     protected $moduleOptions = null;
 
     /**
-     * @param ImagineInterface $imageService
+     * @param Image\ImagineInterface $imageService
+     * @param ModuleOptions $moduleOptions
      */
-    public function __construct(ImagineInterface $imageService, ModuleOptions $moduleOptions)
+    public function __construct(Image\ImagineInterface $imageService, ModuleOptions $moduleOptions)
     {
         $this->imageService = $imageService;
         $this->moduleOptions = $moduleOptions;
@@ -128,13 +129,13 @@ class CollageService
             $width = round( $width / $maxWidth ) * $maxWidth;
         }
 
-        $collage = $this->imageService->create(new \Imagine\Image\Box($width, $height));
+        $collage = $this->imageService->create(new Image\Box($width, $height));
         $x = 0;
         $y = 0;
         foreach ($images as $image) {
             $photo = $this->imageService->open($image->url);
             // paste photo at current position
-            $collage->paste($photo, new \Imagine\Image\Point($x, $y));
+            $collage->paste($photo, new Image\Point($x, $y));
 
             // move position by 30px to the right
             $x += $maxWidth;

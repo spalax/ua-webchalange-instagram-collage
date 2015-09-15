@@ -36,6 +36,13 @@ class CollageController extends AbstractController
      */
     protected $authenticationService = null;
 
+    /**
+     * @param CollectionFactory $collectionFactory
+     * @param SessionContainer $sessionContainer
+     * @param CollageService $collageService
+     * @param AuthenticationService $authenticationService
+     * @param CollageData $collageData
+     */
     public function __construct(CollectionFactory $collectionFactory,
                                 SessionContainer $sessionContainer,
                                 CollageService $collageService,
@@ -86,6 +93,6 @@ class CollageController extends AbstractController
             $viewModel->setVariable('collageHttpPath', $collageHttpPath);
         }
         $viewModel->setTemplate('frontend/gallery/index');
-        $e->setResult($viewModel);
+        return $e->setResult($viewModel);
     }
 }

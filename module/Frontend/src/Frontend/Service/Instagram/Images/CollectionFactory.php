@@ -20,7 +20,7 @@ class CollectionFactory
     }
 
     /**
-     * @param string $source
+     * @param SourceNameInterface $sourceNameData
      *
      * @return CollectionInterface
      */

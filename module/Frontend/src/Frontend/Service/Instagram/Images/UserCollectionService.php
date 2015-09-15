@@ -13,6 +13,7 @@ class UserCollectionService extends AbstractCollectionService
 
     /**
      * @param NameInterface $nameData
+     * @param InstagramWrapperInterface $instagramWrapper
      */
     public function __construct(NameInterface $nameData,
                                 InstagramWrapperInterface $instagramWrapper)

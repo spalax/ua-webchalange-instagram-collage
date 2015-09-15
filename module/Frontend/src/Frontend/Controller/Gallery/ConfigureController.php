@@ -13,11 +13,8 @@ class ConfigureController extends AbstractController
     protected $authenticationService = null;
 
     /**
-     * @var CollectionFactory
+     * @param AuthenticationService $authenticationService
      */
-    protected $collectionFactory = null;
-
-
     public function __construct(AuthenticationService $authenticationService)
     {
         $this->authenticationService = $authenticationService;

@@ -1,4 +1,6 @@
 <?php
 namespace Frontend\Service\Exception;
 
-class InvalidDataException extends \Frontend\Exception\DomainException {}
+use Frontend\Exception\DomainException;
+
+class InvalidDataException extends DomainException {}

@@ -22,6 +22,7 @@ interface InstagramWrapperInterface
 
     /**
      * @param object $items
+     * @param int $limit
      *
      * @return object
      */

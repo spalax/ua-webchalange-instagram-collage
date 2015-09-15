@@ -14,6 +14,9 @@ abstract class AbstractController extends ZendAbstractController
      */
     protected $authorizationService = null;
 
+    /**
+     * @param AuthorizationService $authorizationService
+     */
     public function __construct(AuthorizationService $authorizationService)
     {
         $this->authorizationService = $authorizationService;

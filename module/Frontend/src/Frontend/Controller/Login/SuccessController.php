@@ -23,7 +23,7 @@ class SuccessController extends AbstractController
     protected $authenticationService = null;
 
     /**
-     * @param AuthenticationService $authService
+     * @param AuthenticationService $authenticationService
      * @param AuthorizationService $authorizationService
      * @param CodeValidator $validator
      */
@@ -55,6 +55,6 @@ class SuccessController extends AbstractController
             $viewModel->setTemplate( 'frontend/error/unrecoverable' );
         }
 
-        $e->setResult($viewModel);
+        return $e->setResult($viewModel);
     }
 }

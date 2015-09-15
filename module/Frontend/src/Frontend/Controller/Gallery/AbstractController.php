@@ -13,6 +13,7 @@ abstract class AbstractController extends ZendAbstractController
      */
     public function dispatch(Request $request, Response $response = null)
     {
+        /* @var $authenticationService \Frontend\Service\Instagram\AuthenticationService */
         $authenticationService = $this->serviceLocator->get('di')
                                                      ->get('Frontend\Service\Instagram\AuthenticationService');
 
