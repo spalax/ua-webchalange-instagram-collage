@@ -125,8 +125,8 @@ class CollageService
         } else if ($width == null && $height != null) {
             $width = ceil($limit / ceil($height/$maxHeight))*$maxWidth;
         } else {
-            $height = round($height / $maxHeight) * $maxHeight;
-            $width = round( $width / $maxWidth ) * $maxWidth;
+            $height = ceil($height / $maxHeight) * $maxHeight;
+            $width = ceil( $width / $maxWidth ) * $maxWidth;
         }
 
         $collage = $this->imageService->create(new Image\Box($width, $height));
