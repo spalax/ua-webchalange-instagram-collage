@@ -10,6 +10,6 @@ class FeedCollectionService extends AbstractCollectionService
      */
     protected function fetch( $limit )
     {
-        return $this->instagramWrapper->getUserFeed($limit+1);
+        return $this->instagramWrapper->getUserFeed($limit);
     }
 }
