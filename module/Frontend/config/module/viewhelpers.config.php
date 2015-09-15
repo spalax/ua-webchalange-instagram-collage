@@ -2,8 +2,8 @@
 return [
     'invokables' => [
         'quality' =>
-            'Frontend\View\Helper\Quality',
+            'Frontend\View\Helper\Configuration\Quality',
         'source' =>
-            'Frontend\View\Helper\Source',
+            'Frontend\View\Helper\Configuration\Source',
     ]
 ];

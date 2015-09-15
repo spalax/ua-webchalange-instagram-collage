@@ -68,31 +68,24 @@ class CollageController extends AbstractController
             return $e->setResult($viewModel);
         }
 
-        if ($this->sessionContainer->valuesHash != md5(serialize($this->collageData->getValues()))) {
+        $uniqueId = md5(serialize($this->collageData->getValues()));
+
+        if ($this->sessionContainer->valuesHash != $uniqueId) {
             $collectionService = $this->collectionFactory->createCollection( $this->collageData );
             $images = $collectionService->getImages($this->collageData);
         } else {
             $images = $this->sessionContainer->images;
         }
-        
-        $collageContent = $this->collageService->create($this->collageData->getWidth(),
-                                                        $this->collageData->getHeight(),
-                                                        $images);
 
-        if (!is_null($collageContent)) {
-            $response = $this->getResponse();
+        $collageHttpPath = $this->collageService->create($images, $uniqueId,
+                                                         $this->collageData->getWidth(),
+                                                         $this->collageData->getHeight(),
+                                                         $this->collageData->getLimit());
 
-            $response->setContent( $collageContent );
-            $response
-                ->getHeaders()
-                ->addHeaderLine( 'Content-Transfer-Encoding', 'binary' )
-                ->addHeaderLine( 'Content-Type', 'image/png' )
-                ->addHeaderLine( 'Content-Length', mb_strlen( $collageContent ) );
-
-            return $response;
-        } else {
-            $viewModel->setTemplate('frontend/gallery/index');
-            $e->setResult($viewModel);
+        if ($collageHttpPath !== false) {
+            $viewModel->setVariable('collageHttpPath', $collageHttpPath);
         }
+        $viewModel->setTemplate('frontend/gallery/index');
+        $e->setResult($viewModel);
     }
 }

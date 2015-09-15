@@ -14,27 +14,28 @@ class CollageData extends ConfigurationData
     public function __construct(Request $request, Di $di)
     {
         parent::__construct($request, $di);
-        $inputs = $this->getInputs();
-
-        $inputs['width']->setRequired(true);
-        $inputs['height']->setRequired(true);
-
         $this->setData($this->initDefaults($request->getPost()));
     }
 
     /**
-     * @return int
+     * @return int | null
      */
     public function getWidth()
     {
+        if (is_null($this->getValue('width')) || !strlen(trim($this->getValue('width')))) {
+            return null;
+        }
         return $this->getValue('width');
     }
 
     /**
-     * @return int
+     * @return int | null
      */
     public function getHeight()
     {
+        if (is_null($this->getValue('height')) || !strlen(trim($this->getValue('height')))) {
+            return null;
+        }
         return $this->getValue('height');
     }
 }

@@ -12,6 +12,12 @@ if (!empty($this->validInputs['quality'])) {
 }
 
 ?>
+<?php if (!empty($this->collageHttpPath)) :?>
+<div class="alert alert-success" role="alert">
+    Your collage is ready, please
+    <a href="<?=$this->collageHttpPath?>" class="alert-link" target="_blank"><strong>download it here</strong></a>!
+</div>
+<?php endif ?>
 <div class="profile-sidebar">
     <div class="profile-usermenu">
         <ul class="nav">
@@ -119,11 +125,12 @@ if (!empty($this->validInputs['quality'])) {
                 </div>
 
                 <div class="input-group col-lg-7">
-                    <button type="submit" onclick="$('form').attr('method', 'post')"
-                            class="btn btn-success btn-sm btn-block">Collage It</button>
                     <button type="submit"
-                            class="btn btn-success btn-sm btn-block"
-                            onclick="$('form').attr('method', 'get')">Preview</button>
+                            data-loading-text="Loading..."
+                            class="collage-btn btn btn-primary btn-success btn-sm btn-block">Collage It</button>
+                    <button type="submit"
+                            class="preview-btn btn-primary btn btn-success btn-sm btn-block"
+                            data-loading-text="Building...">Preview</button>
                 </div>
             </div>
         </form>

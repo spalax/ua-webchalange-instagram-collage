@@ -81,23 +81,52 @@ abstract class AbstractCollectionService implements CollectionInterface
         $rgb = $this->hex2rgb($limitHexQualityData->getHex());
 
         $images = array();
-        $fetchedImages = $this->fetch(40);
-        $quality = $limitHexQualityData->getQuality();
-        $startTime = time();
-        $rec = function ($limit, $rgb, $fetchedImages, $round = 1) use (&$rec, &$images, $quality, $startTime) {
-            if ((time() - $startTime) > 15) {
-                return;
+
+        $getLimit = $limitHexQualityData->getLimit()*3;
+
+        $fetchAll = function ($getLimit, &$fetchedImages = null) use (&$fetchAll) {
+            if (is_null($fetchedImages)) {
+                $images = $this->fetch( $getLimit );
+            } else {
+                $images = $this->instagramWrapper->pagination($fetchedImages, $getLimit);
             }
-            if ( is_object( $fetchedImages ) && is_array( $fetchedImages->data ) ) {
-                $sorted = [ ];
+
+            if (!is_null($images) || !empty($images) && !empty($images->meta) && $images->meta->code == '200') {
+                if (is_null($fetchedImages)) {
+                    $fetchedImages = $images;
+                } else {
+                    $fetchedImages->pagination = $images->pagination;
+                    $fetchedImages->data  = array_merge( $fetchedImages->data, $images->data );
+                }
+            } else {
+                return $fetchedImages;
+            }
+
+            if (count($fetchedImages->data) < $getLimit && !empty($images->pagination)) {
+                return $fetchAll($getLimit, $fetchedImages);
+            }
+
+            return $fetchedImages;
+        };
+
+        $quality = $limitHexQualityData->getQuality();
+        $count = 0;
+
+        $rec = function ($limit, $rgb, $fetchedImages) use (&$rec, &$images, $quality, &$count, $fetchAll, $getLimit) {
+            if ( is_object( $fetchedImages ) && !empty( $fetchedImages->data ) && is_array($fetchedImages->data) ) {
+                $sorted = [];
                 foreach ( $fetchedImages->data as $item ) {
-                    if ( count( $images ) >= $limit ) {
-                        return;
+                    $count++;
+
+                    $diff = $this->colorDiff( $rgb, ColorThief::getColor($item->images->thumbnail->url, 1) );
+
+                    if ($item->type != 'image' ||
+                        $diff >= (300 + (ceil($count/10)*100))) {
+                        continue;
                     }
 
-                    $diff = $this->colorDiff( $rgb, ColorThief::getColor($item->images->{$quality}->url) );
-
-                    $sorted[] = array('i'=>$item, 'diff'=>$diff);
+                    $sorted[] = ['i' => $item->images->{$quality},
+                                 'diff' => $diff];
                 }
 
                 usort($sorted, function ($a, $b) {
@@ -108,22 +137,32 @@ abstract class AbstractCollectionService implements CollectionInterface
                 });
 
                 foreach ( $sorted as $item ) {
-                    if ( $item['i']->type != 'image' ||
-                         $item['diff'] >= (400 + ($round*100))
-                    ) {
-                        continue;
+                    if ( count( $images ) >= $limit ) {
+                        return;
                     }
 
-                    $images[] = $item['i']->images->{$quality};
+                    $images[] = $item;
                 }
 
-                return $rec( $limit, $rgb, $this->instagramWrapper->pagination( $fetchedImages, 40 ), $round+1 );
+                $count = 0;
+
+                unset($fetchedImages->data);
+                return $rec( $limit, $rgb, $fetchAll($getLimit, $fetchedImages));
             }
         };
 
-        $rec($limitHexQualityData->getLimit(), $rgb, $fetchedImages);
+        $rec($limitHexQualityData->getLimit(), $rgb, $fetchAll($getLimit));
 
-        return $images;
+        usort($images, function ($a, $b) {
+            if ($a['diff'] == $b['diff']) {
+                return 0;
+            }
+            return ($a['diff'] < $b['diff']) ? -1 : 1;
+        });
+
+        return array_map(function ($item) {
+            return $item['i'];
+        }, $images);
     }
 
     /**
@@ -140,7 +179,7 @@ abstract class AbstractCollectionService implements CollectionInterface
         $fetchedImages = $this->fetch($limitHexQualityData->getLimit());
         $images = array();
 
-        if ( is_object( $fetchedImages ) && is_array( $fetchedImages->data ) ) {
+        if ( is_object( $fetchedImages ) && !empty( $fetchedImages->data ) ) {
             foreach ( $fetchedImages->data as $item ) {
                 if ( $item->type != 'image' ) {
                     continue;

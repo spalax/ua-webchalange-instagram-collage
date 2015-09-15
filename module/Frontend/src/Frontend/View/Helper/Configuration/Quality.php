@@ -1,38 +1,35 @@
 <?php
-namespace Frontend\View\Helper;
+namespace Frontend\View\Helper\Configuration;
 
 use Frontend\Data\Gallery\QualityInterface;
-use Zend\View\Helper\AbstractHelper;
 
 class Quality extends AbstractHelper
 {
     /**
-     * @var mixed
+     * @param string $value
+     * @param string $const
+     *
+     * @return $this
      */
-    protected $good = false;
-
-    /**
-     * @var string
-     */
-    protected $lastValue = null;
-
     public function __invoke($value, $const)
     {
         $this->good = false;
-        $this->lastValue = $value;
 
         switch ($const) {
             case 'thumb':
+                $this->goodValue = QualityInterface::QUALITY_THUMBNAIL;
                 if ( $value === QualityInterface::QUALITY_THUMBNAIL ) {
                     $this->good = true;
                 }
                 break;
             case 'low_res':
+                $this->goodValue = QualityInterface::QUALITY_LOW_RES;
                 if ( $value === QualityInterface::QUALITY_LOW_RES ) {
                     $this->good = true;
                 }
                 break;
             case 'std_res':
+                $this->goodValue = QualityInterface::QUALITY_STANDARD_RES;
                 if ( $value === QualityInterface::QUALITY_STANDARD_RES ) {
                     $this->good = true;
                 }
@@ -40,29 +37,5 @@ class Quality extends AbstractHelper
         }
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getChecked()
-    {
-        return ($this->good ? 'checked' : '');
-    }
-
-    /**
-     * @return string
-     */
-    public function getActive()
-    {
-        return ($this->good ? 'active' : '');
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->lastValue;
     }
 }

@@ -3,6 +3,7 @@ namespace Frontend;
 
 use Frontend\Options\Instagram\InstagramOptions;
 use Frontend\Options\Exception\UndefinedException;
+use Frontend\Options\ModuleOptions;
 use Zend\Mvc\MvcEvent;
 
 class Module
@@ -22,14 +23,21 @@ class Module
             throw new UndefinedException('Instagram config must be defined and must not be empty');
         }
 
-        $options = new InstagramOptions(isset($config['instagram']) ?
-                                        $config['instagram'] :
-                                        array());
+        $instagramOptions = new InstagramOptions(isset($config['instagram']) ?
+                                                 $config['instagram'] :
+                                                 array());
+
+        $moduleOptions = new ModuleOptions(isset($config['frontend']) ?
+                                           $config['frontend'] :
+                                           array());
 
         /* @var $di \Zend\Di\Di */
         $di = $sm->get('di');
-        $di->instanceManager()->addSharedInstance($options,
+        $di->instanceManager()->addSharedInstance($instagramOptions,
                                                   'Frontend\Options\Instagram\InstagramOptions');
+
+        $di->instanceManager()->addSharedInstance($moduleOptions,
+                                                  'Frontend\Options\ModuleOptions');
 
         $di->instanceManager()->addSharedInstance($di, 'Zend\Di\Di');
     }

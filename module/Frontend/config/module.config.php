@@ -3,7 +3,11 @@ return [
     'router' => include __DIR__ . '/module/router.config.php',
     'view_helpers'=> include __DIR__ . '/module/viewhelpers.config.php',
 
-    'frontend' => [ ],
+    'frontend' => [
+        'collageSavePath' => __DIR__ . '/../../../public/uploads',
+        'collageHttpPath' => '/uploads',
+        'collageExtension' => 'jpg'
+    ],
 
     'di' => include __DIR__ . '/module/di.config.php',
 
