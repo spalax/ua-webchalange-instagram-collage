@@ -1,6 +1,7 @@
 <?php
 namespace Frontend;
 
+use Frontend\Options\Exception\DirectoryNotWritableOrNotExistsException;
 use Frontend\Options\Instagram\InstagramOptions;
 use Frontend\Options\Exception\UndefinedException;
 use Frontend\Options\ModuleOptions;
@@ -27,9 +28,14 @@ class Module
                                                  $config['instagram'] :
                                                  array());
 
-        $moduleOptions = new ModuleOptions(isset($config['frontend']) ?
-                                           $config['frontend'] :
-                                           array());
+        try {
+            $moduleOptions = new ModuleOptions( isset( $config['frontend'] ) ?
+                $config['frontend'] :
+                array() );
+        } catch (DirectoryNotWritableOrNotExistsException $ex) {
+            print_r($ex->getMessage());
+            exit(0);
+        }
 
         /* @var $di \Zend\Di\Di */
         $di = $sm->get('di');
