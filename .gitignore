@@ -13,3 +13,4 @@ node_modules/
 public/cache
 public/vendor
 cache
+public/uploads/*
