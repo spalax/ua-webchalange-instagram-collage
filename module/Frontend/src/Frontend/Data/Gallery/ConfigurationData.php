@@ -23,7 +23,7 @@ class ConfigurationData extends InputFilter implements SourceNameInterface, Limi
                                     'validators' => [
                                         ['name' => 'digits'],
                                         ['name' => 'between',
-                                         'options' => [ 'min' => 320, 'max' => 19200 ]]
+                                         'options' => [ 'min' => 150, 'max' => 19200 ]]
                                     ]
                                 ],
                                 'height' => [
@@ -32,7 +32,7 @@ class ConfigurationData extends InputFilter implements SourceNameInterface, Limi
                                     'validators' => [
                                         ['name' => 'digits'],
                                         ['name' => 'between',
-                                         'options' => [ 'min' => 320, 'max' => 19200 ]]
+                                         'options' => [ 'min' => 150, 'max' => 19200 ]]
                                     ]
                                 ],
                                 'username' => [
@@ -50,7 +50,7 @@ class ConfigurationData extends InputFilter implements SourceNameInterface, Limi
                                     'validators' => [
                                         ['name' => 'digits'],
                                         ['name' => 'between',
-                                         'options' => [ 'min' => 5, 'max' => 30 ]]
+                                         'options' => [ 'min' => 5, 'max' => 100 ]]
                                     ]
                                 ],
                                 'hex' => [

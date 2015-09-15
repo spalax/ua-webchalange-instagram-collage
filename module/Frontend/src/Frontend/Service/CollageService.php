@@ -60,7 +60,7 @@ class CollageService
      *
      * @return bool
      */
-    protected function checkHasCached($uniqueId)
+    protected function hasCached($uniqueId)
     {
         $filePath = $this->getFilePath($uniqueId);
         if (file_exists($filePath)) {
@@ -87,7 +87,7 @@ class CollageService
         if (count($images) < 1) {
             return false;
         }
-        if ($this->checkHasCached($uniqueId) === true) {
+        if ($this->hasCached($uniqueId) === true) {
             return $this->getHttpPath($uniqueId);
         }
 
@@ -115,17 +115,17 @@ class CollageService
         $maxWidth = array_reduce ($images, $getMax('width'), $images);
         $maxHeight = array_reduce ($images, $getMax('height'), $images);
 
-        if ($width === null) {
-            $width = ceil(sqrt($limit)) * $maxWidth;
-        } else {
-            $width = floor( $width / $maxWidth ) * $maxWidth;
-        }
-
-        if ($height === null) {
+        if ($width == null && $height === null) {
             $sqrt = sqrt($limit);
+            $width = ceil(sqrt($limit)) * $maxWidth;
             $height = (($limit%2) == 0 ? floor($sqrt) : ceil($sqrt)) * $maxHeight;
+        } else if ($width != null && $height === null) {
+            $height = (ceil($limit / ceil($width / $maxWidth))*$maxHeight);
+        } else if ($width == null && $height != null) {
+            $width = ceil($limit / ceil($height/$maxHeight))*$maxWidth;
         } else {
-            $height = floor($height / $maxHeight) * $maxHeight;
+            $height = ceil($height / $maxHeight) * $maxHeight;
+            $width = ceil( $width / $maxWidth ) * $maxWidth;
         }
 
         $collage = $this->imageService->create(new \Imagine\Image\Box($width, $height));
