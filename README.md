@@ -13,3 +13,13 @@ php -r "readfile('https://getcomposer.org/installer');" | php
 php composer.phar install
 ```
 
+#### How to develop/extend
+Install first, then
+```
+./node_modules/bower/bin/bower install
+./node_modules/grunt-cli/bin/grunt
+```
+When you change JS or CSS run **yes i did not configure watcher, but you may :=)**
+```
+./node_modules/grunt-cli/bin/grunt
+```
